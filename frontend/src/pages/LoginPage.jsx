@@ -23,7 +23,9 @@ export default function LoginPage() {
       }
 
       localStorage.setItem('token', token);
-      window.location.assign('/dashboard');
+      // Keep this inside the SPA so a successful login does not request
+      // /dashboard directly from the static-site server.
+      navigate('/dashboard', { replace: true });
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Login failed');
     } finally {

@@ -18,7 +18,24 @@ dotenv.config();
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+// Comma-separated frontend origins, e.g.
+// CORS_ORIGIN=https://agency-management-system-1-a44p.onrender.com
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use(cors({
+  origin(origin, callback) {
+    // Allow non-browser clients and local development when no production
+    // allow-list has been configured.
+    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Origin not allowed by CORS'));
+  },
+}));
 app.use(compression());
 app.use(morgan('dev'));
 app.use(express.json());
