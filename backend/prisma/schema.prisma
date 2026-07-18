@@ -1,0 +1,219 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String?  @unique
+  passwordHash String
+  fullName     String?
+  roleId       Int?
+  role         Role?    @relation(fields: [roleId], references: [id])
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  description String?
+  users       User[]
+  permissions Permission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  description String?
+  roles       Role[]
+
+  @@map("permissions")
+}
+
+model Customer {
+  id           Int      @id @default(autoincrement())
+  name         String
+  phone        String   @unique
+  email        String?
+  address      String?
+  balance      Float    @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("customers")
+}
+
+model Employee {
+  id           Int      @id @default(autoincrement())
+  name         String
+  phone        String   @unique
+  email        String?
+  position     String?
+  salary       Float?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("employees")
+}
+
+model Provider {
+  id           Int      @id @default(autoincrement())
+  name         String
+  code         String   @unique
+  description  String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("providers")
+}
+
+model Transaction {
+  id                Int      @id @default(autoincrement())
+  reference         String   @unique
+  type              String
+  amount            Float
+  status            String   @default("PENDING")
+  channel           String?
+  description       String?
+  customerId        Int?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("transactions")
+}
+
+model Expense {
+  id           Int      @id @default(autoincrement())
+  description  String
+  amount       Float
+  category     String?
+  recordedAt   DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("expenses")
+}
+
+model Income {
+  id           Int      @id @default(autoincrement())
+  description  String
+  amount       Float
+  category     String?
+  recordedAt   DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("income")
+}
+
+model CashAccount {
+  id           Int      @id @default(autoincrement())
+  name         String
+  balance      Float
+  currency     String   @default("TZS")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("cash_accounts")
+}
+
+model FloatAccount {
+  id           Int      @id @default(autoincrement())
+  name         String
+  balance      Float
+  currency     String   @default("TZS")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("float_accounts")
+}
+
+model BankDeposit {
+  id           Int      @id @default(autoincrement())
+  amount       Float
+  bankName     String?
+  reference    String?
+  depositedAt  DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("bank_deposits")
+}
+
+model AuditLog {
+  id           Int      @id @default(autoincrement())
+  action       String
+  entity       String?
+  details      String?
+  userId       Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("audit_logs")
+}
+
+model LoginHistory {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  ipAddress    String?
+  userAgent    String?
+  loggedAt     DateTime @default(now())
+
+  @@map("login_history")
+}
+
+model Setting {
+  id           Int      @id @default(autoincrement())
+  key          String   @unique
+  value        String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model Agency {
+  id           Int      @id @default(autoincrement())
+  name         String
+  address      String?
+  phone        String?
+  email        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("agency")
+}
+
+model Backup {
+  id           Int      @id @default(autoincrement())
+  fileName     String
+  filePath     String
+  size         Int?
+  createdAt    DateTime @default(now())
+
+  @@map("backups")
+}
+
+model Notification {
+  id           Int      @id @default(autoincrement())
+  title        String
+  message      String
+  isRead       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@map("notifications")
+}

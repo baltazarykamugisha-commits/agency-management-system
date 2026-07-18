@@ -1,0 +1,11 @@
+{
+  "name": "agency-electron",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "dev": "electron ."
+  },
+  "dependencies": {
+    "electron": "^39.0.0"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "agency-backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "build": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --name init"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.0",
+    "compression": "^1.0.0",
+    "cors": "^2.8.0",
+    "dayjs": "^1.0.0",
+    "dotenv": "^16.0.0",
+    "exceljs": "^4.0.0",
+    "express": "^5.0.0",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "morgan": "^1.0.0",
+    "multer": "^1.0.0",
+    "mysql2": "^3.0.0",
+    "pdfkit": "^0.17.0",
+    "prisma": "^5.22.0",
+    "socket.io": "^4.0.0",
+    "uuid": "^9.0.0",
+    "winston": "^3.0.0",
+    "zod": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}
