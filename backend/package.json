@@ -9,7 +9,8 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev --name init",
     "db:generate:production": "node scripts/prepare-postgres-schema.mjs && prisma generate --schema prisma/schema.postgres.prisma",
-    "db:push:production": "node scripts/prepare-postgres-schema.mjs && prisma db push --schema prisma/schema.postgres.prisma"
+    "db:push:production": "node scripts/prepare-postgres-schema.mjs && prisma db push --schema prisma/schema.postgres.prisma",
+    "db:seed": "node src/scripts/seedAdmin.js"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

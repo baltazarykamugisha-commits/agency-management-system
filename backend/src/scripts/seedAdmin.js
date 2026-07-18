@@ -2,13 +2,20 @@ import bcrypt from 'bcryptjs';
 import prisma from '../lib/prisma.js';
 
 async function seedAdmin() {
-  const existing = await prisma.user.findUnique({ where: { username: 'admin' } });
+  const username = process.env.INITIAL_ADMIN_USERNAME || 'admin';
+  const existing = await prisma.user.findUnique({ where: { username } });
 
   if (!existing) {
-    const passwordHash = await bcrypt.hash('admin123', 10);
+    const password = process.env.INITIAL_ADMIN_PASSWORD;
+
+    if (!password) {
+      throw new Error('INITIAL_ADMIN_PASSWORD is required to create the first administrator.');
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
     await prisma.user.create({
       data: {
-        username: 'admin',
+        username,
         email: 'admin@agency.com',
         passwordHash,
         fullName: 'System Administrator',
